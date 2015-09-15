@@ -17,6 +17,22 @@ namespace Jas.DataMerge {
 
         private ParserConfig parserConfig = ParserConfig.GetDefault();
 
+        public AnalyticalGrid Grid1
+        {
+            get
+            {
+                return dgv1;
+            }
+        }
+
+        public AnalyticalGrid Grid2
+        {
+            get
+            {
+                return dgv2;
+            }
+        }
+
         public Form1() {
             InitializeComponent();
 
@@ -118,7 +134,7 @@ namespace Jas.DataMerge {
                 f = new SameFilter();
             }
 
-            var fr = new GridForm();
+            var fr = new GridForm(f);
 
             f.Init( dgv1, dgv2, fr.Grid, key1, key2 );
 

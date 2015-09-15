@@ -132,6 +132,48 @@ namespace Jas.DataMerge.Filters {
             }
         }
 
+        public void BackFill(DataGridView g1, DataGridView g2)
+        {
+            getData(g1, 0, rightHalf);
+            getData(g2, rightHalf, result.Columns.Count);
+        }
+
+        private void getData(DataGridView grid, int colBeg, int colEnd)
+        {
+            for (int i = colBeg; i < colEnd; i++)
+            {
+                grid.Columns.Add(result.Columns[i].Name, result.Columns[i].HeaderText);
+            }
+
+            foreach (DataGridViewRow row in result.Rows)
+            {
+                List<string> data = new List<string>();
+
+                for (int i = colBeg; i < colEnd; i++)
+                {
+                    var obj = row.Cells[i].Value;
+ 
+                    data.Add( obj != null ? obj.ToString() : string.Empty );
+                }
+
+                if (!isEmpty(data))
+                {
+                    grid.Rows.Add(data.ToArray());
+                }
+            }
+        }
+
+        private bool isEmpty(List<string> data)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var s in data)
+            {
+                sb.Append(s);
+            }
+
+            return string.IsNullOrEmpty(sb.ToString().Trim());
+        }
+
         public abstract void Run();
     }
 }

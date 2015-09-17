@@ -59,13 +59,33 @@ namespace Jas.DataMerge.Filters {
 
                 string k = getKey( row, key );
 
-                try {
-                    map.Add( k, row.Index );
-                } catch { }
+                try
+                {
+                    map.Add(k, row.Index);
+                }
+                catch
+                {
+                    int pokus = 1;
 
+                    tryAdd(map, k, row.Index, pokus);
+                }
+
+                
             }
 
             return map;
+        }
+
+        private void tryAdd(Dictionary<string, int> map, string k, int rowIndex, int pokus)
+        {
+            try
+            {
+                map.Add(k + "#" + pokus, rowIndex);
+            }
+            catch
+            {
+                tryAdd(map, k, rowIndex, pokus + 1);
+            }
         }
 
         protected bool validKey( DataGridViewRow row, int[] key ) {
